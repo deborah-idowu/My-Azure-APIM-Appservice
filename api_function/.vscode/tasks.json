@@ -12,13 +12,13 @@
 			"label": "pip install (functions)",
 			"type": "shell",
 			"osx": {
-				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r signalrfunction/requirements.txt"
+				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r api_function/requirements.txt"
 			},
 			"windows": {
-				"command": "${config:azureFunctions.pythonVenv}\\Scripts\\python -m pip install -r signalrfunction\\requirements.txt"
+				"command": "${config:azureFunctions.pythonVenv}\\Scripts\\python -m pip install -r api_function\\requirements.txt"
 			},
 			"linux": {
-				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r signalrfunction/requirements.txt"
+				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r api_function/requirements.txt"
 			},
 			"problemMatcher": []
 		}

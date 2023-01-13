@@ -1,94 +1,91 @@
 name: Integration CI/CD Workflow
 
 on:
-  push:
-    branches:
-      - "NA" # prevent action
-      # - "dev/signalr"
-      # - "main" # can't refer to env variable here
-    # pull_request:
-    #   branches: [main]
-    # paths:
-    #     - "ui/**"
+    push:
+        branches:
+            - "NA" # prevent action
+            # - "main" # can't refer to env variable here
+        # pull_request:
+        #   branches: [main]
+        # paths:
+        #     - "ui/**"
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
-  SERVICE_BUS_CONN_VAR: "SERVICE_BUS_CONNECTION"
-  SIGNALR_CONN_VAR: "democonnectionstring_SIGNALR"
-  BROADCAST_FUNCTION_FOLDER: "signalr_broadcastfunction"
+    AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
+    API_FUNCTION_FOLDER: "api_function"
 
 jobs:
-  # pass data to reusable workflow
-  configuration:
-    name: "Configuration"
-    uses: ./.github/workflows/config.yml
+    # pass data to reusable workflow
+    configuration:
+        name: "Configuration"
+        uses: ./.github/workflows/config.yml
 
-  # TODO set devops config json to proper environment
+    # TODO set devops config json to proper environment
 
-  functionApp:
-    name: "Build and Deploy Function App"
+    functionApp:
+        name: "Build and Deploy Function App"
 
-    needs: [configuration]
-    runs-on: ubuntu-latest
-    steps:
-      # checkout the repo
-      - name: "Checkout Repo"
-        uses: actions/checkout@v2
+        needs: [configuration]
+        runs-on: ubuntu-latest
+        steps:
+            # checkout the repo
+            - name: "Checkout Repo"
+              uses: actions/checkout@v2
 
-      - name: "Login via Azure CLI"
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+            - name: "Login via Azure CLI"
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
 
-      - name: Setup Python Environment
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ fromJson(needs.configuration.outputs.variables).functionPythonVersion }}
+            - name: Setup Python Environment
+              uses: actions/setup-python@v1
+              with:
+                  python-version: ${{ fromJson(needs.configuration.outputs.variables).functionPythonVersion }}
 
-      # mask conn str before setting env var
-      - name: "Get Service Bus Connection String"
-        shell: pwsh
-        run: |
-          $connStr = $(az servicebus namespace authorization-rule keys list --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} --namespace-name ${{ fromJson(needs.configuration.outputs.variables).serviceBusNamespace }} --name "RootManageSharedAccessKey" --query "primaryConnectionString")
-          echo "::add-mask::$connStr"
-          echo "svcBusConnStr=$connStr" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+            # mask conn str before setting env var
+            # - name: "Get Service Bus Connection String"
+            #   shell: pwsh
+            #   run: |
+            #       $connStr = $(az servicebus namespace authorization-rule keys list --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} --namespace-name ${{ fromJson(needs.configuration.outputs.variables).serviceBusNamespace }} --name "RootManageSharedAccessKey" --query "primaryConnectionString")
+            #       echo "::add-mask::$connStr"
+            #       echo "svcBusConnStr=$connStr" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
-      - name: Variable replacement
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: "./${{ env.BROADCAST_FUNCTION_FOLDER }}/function.json, ./${{ env.BROADCAST_FUNCTION_FOLDER }}/config.json"
-        env:
-          bindings.0.connection: ${{ env.SERVICE_BUS_CONN_VAR }}
-          datasource.host: ${{ fromJson(needs.configuration.outputs.variables).dbServerName }}.mysql.database.azure.com
-          datasource.username: ${{ fromJson(needs.configuration.outputs.variables).dbServerName }}
-          datasource.password: ${{ secrets.DB_PASSWORD }}
-          datasource.database: ${{ fromJson(needs.configuration.outputs.variables).dbServerDatabase }}
-          datasource.table: records
+            # - name: Variable replacement
+            #   uses: microsoft/variable-substitution@v1
+            #   with:
+            #       files: "./${{ env.API_FUNCTION_FOLDER }}/function.json, ./${{ env.API_FUNCTION_FOLDER }}/config.json"
+            #   env:
+            #       bindings.0.connection: ${{ env.SERVICE_BUS_CONN_VAR }}
+            #       datasource.host: ${{ fromJson(needs.configuration.outputs.variables).dbServerName }}.mysql.database.azure.com
+            #       datasource.username: ${{ fromJson(needs.configuration.outputs.variables).dbServerName }}
+            #       datasource.password: ${{ secrets.DB_PASSWORD }}
+            #       datasource.database: ${{ fromJson(needs.configuration.outputs.variables).dbServerDatabase }}
+            #       datasource.table: records
 
-      - name: "Resolve Project Dependencies - Broadcast Function"
-        shell: bash
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          python -m pip install --upgrade pip
-          pip install -r ./${{ env.BROADCAST_FUNCTION_FOLDER }}/requirements.txt --target=".python_packages/lib/site-packages"
-          popd
+            - name: "Resolve Project Dependencies - Function"
+              shell: bash
+              run: |
+                  pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+                  python -m pip install --upgrade pip
+                  pip install -r ./${{ env.API_FUNCTION_FOLDER }}/requirements.txt --target=".python_packages/lib/site-packages"
+                  popd
 
-      # Function
-      - name: "Get Publish Profile - Broadcast Function"
-        shell: pwsh
-        run: |
-          $profile = $(az functionapp deployment list-publishing-profiles --name ${{ fromJson(needs.configuration.outputs.variables).broadcastFunctionName }} --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} --xml)
-          echo "broadcastFunctionAppPublishProfile=$profile" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+            # Function
+            - name: "Get Publish Profile - Function"
+              shell: pwsh
+              run: |
+                  $profile = $(az functionapp deployment list-publishing-profiles --name ${{ fromJson(needs.configuration.outputs.variables).apiFunctionName }} --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} --xml)
+                  echo "apiFunctionAppPublishProfile=$profile" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
-      - name: "Deploy Broadcast + Negotiate Functions"
-        uses: Azure/functions-action@v1
-        with:
-          app-name: ${{ fromJson(needs.configuration.outputs.variables).broadcastFunctionName }}
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ env.broadcastFunctionAppPublishProfile }}
+            - name: "Deploy Function"
+              uses: Azure/functions-action@v1
+              with:
+                  app-name: ${{ fromJson(needs.configuration.outputs.variables).apiFunctionName }}
+                  package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+                  publish-profile: ${{ env.apiFunctionAppPublishProfile }}
 
-      # set connection string in application settings (variable is referenced in ${{ env.BROADCAST_FUNCTION_FOLDER }}/function.json), suppress output
-      - name: "Set Function App Settings"
-        shell: pwsh
-        run: |
-          az functionapp config appsettings set --name ${{ fromJson(needs.configuration.outputs.variables).broadcastFunctionName }} --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} --settings '${{ env.SERVICE_BUS_CONN_VAR }}=${{ env.svcBusConnStr }}' '${{ env.SIGNALR_CONN_VAR }}=${{ secrets.SIGNALR_CONNECTION_STRING }}' >$null
+            # set connection string in application settings (variable is referenced in ${{ env.API_FUNCTION_FOLDER }}/function.json), suppress output
+            - name: "Set Function App Settings"
+              shell: pwsh
+              run: |
+                  az functionapp config appsettings set --name ${{ fromJson(needs.configuration.outputs.variables).apiFunctionName }} --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} >$null

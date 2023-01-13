@@ -1,9 +1,0 @@
-{
-    "datasource": {
-        "host": "localhost",
-        "username": "root",
-        "password": "root",
-        "database": "demo",
-        "table": "records"
-    }
-}
