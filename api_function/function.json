@@ -1,0 +1,21 @@
+{
+  "scriptFile": "__init__.py",
+  "entryPoint": "main",
+  "bindings": [
+    {
+      "name": "message",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "topicName": "topic1",
+      "subscriptionName": "sub1",
+      "connection": "demosvcbus_SERVICEBUS"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "serverless",
+      "connectionStringSetting": "democonnectionstring_SIGNALR",
+      "direction": "out"
+    }
+  ]
+}

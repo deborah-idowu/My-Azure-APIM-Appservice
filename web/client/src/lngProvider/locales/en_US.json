@@ -1,0 +1,14 @@
+{
+    "common.submitButton": "Submit",
+    "buttons.clearButton": "Clear",
+    "input.textField": "Input",
+    "notFound.message": "Page not found!",
+    "messaging.primary.header": "SignalR",
+    "messaging.submitFunctionButton": "Send Message",
+    "messaging.messageSentPrefix": "Message sent",
+    "messaging.signalr.ready": "Ready",
+    "messaging.signalr.error": "Error",
+    "messaging.signalr.latestMessage": "Latest Message",
+    "messaging.signalr.noMessages": "No messages yet!",
+    "messaging.signalr.connecting": "Connecting..."
+}
