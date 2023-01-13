@@ -1,8 +1,8 @@
 import React from "react";
-import MessagingBody from "./MessagingBody";
+import MainBody from "./MainBody";
 
-function Home() {
-    return <MessagingBody />;
+function Main() {
+    return <MainBody />;
 }
 
-export default Home;
+export default Main;

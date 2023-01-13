@@ -1,6 +1,6 @@
 import httpClient from "./HttpClient";
 
-export class MessagingService {
+export class ApiService {
 
     async sendMessage(input) {
         var body = {
@@ -13,6 +13,6 @@ export class MessagingService {
     }
 }
 
-const messagingService = new MessagingService();
+const apiService = new ApiService();
 
-export default messagingService;
+export default apiService;

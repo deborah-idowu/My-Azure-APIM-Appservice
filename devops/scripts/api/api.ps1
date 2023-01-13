@@ -43,6 +43,8 @@ az webapp create --resource-group $rgName --plan $appServicePlan --name $apiAppS
 
 
 ### APIM
+# az deployment group create --resource-group $rgName --template-file '../../bicep/api/apim.bicep' --parameters apiManagementServiceName=$apiManagementServiceName publisherEmail=$apiManagementAdminEmail publisherName=$apiManagementOrg
+
 
 # reset wd
 Set-Location $origPath

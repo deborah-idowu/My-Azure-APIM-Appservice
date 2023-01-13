@@ -1,3 +1,4 @@
 {
-    "buildNumber": "local"
+    "buildNumber": "local",
+    "apiUrl": ""
 }

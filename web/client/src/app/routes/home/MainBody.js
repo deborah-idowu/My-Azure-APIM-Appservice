@@ -5,10 +5,8 @@ import Grid from "@mui/material/Grid";
 import IntlMessages from "util/IntlMessages";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import messagingService from "services/MessagingService";
 import { useIntl } from "react-intl";
-import SignalR from "./SignalR";
-import signalrService from "services/SignalRService";
+import apiService from "services/ApiService";
 import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function MessagingBody() {
+function MainBody() {
     const intl = useIntl();
     var defaultInputValue = "";
     var defaultDisplayValue = { ok: true, value: null };
@@ -66,45 +64,45 @@ function MessagingBody() {
     const [inputValue, setInputValue] = React.useState(defaultInputValue);
     const [result, setResult] = React.useState(defaultDisplayValue);
 
-    // signalr: pass down to child via prop; executed in parent because it has dependencies in parent
-    const [signalrReadyState, setSignalrReadyState] = React.useState(false);
-    const [signalrConnectionInfo, setSignalrConnectionInfo] =
-        React.useState(null);
+    // // signalr: pass down to child via prop; executed in parent because it has dependencies in parent
+    // const [signalrReadyState, setSignalrReadyState] = React.useState(false);
+    // const [signalrConnectionInfo, setSignalrConnectionInfo] =
+    //     React.useState(null);
 
-    React.useEffect(() => {
-        async function negotiate() {
-            setSignalrReadyState(false);
-            // console.log("Starting negotiate call...");
-            var info = await signalrService.negotiate();
-            setSignalrConnectionInfo(info);
-            setSignalrReadyState(true);
-        }
-        negotiate();
+    // React.useEffect(() => {
+    //     async function negotiate() {
+    //         setSignalrReadyState(false);
+    //         // console.log("Starting negotiate call...");
+    //         var info = await signalrService.negotiate();
+    //         setSignalrConnectionInfo(info);
+    //         setSignalrReadyState(true);
+    //     }
+    //     negotiate();
 
-        // return () => {
-        //     // will run on every unmount.
-        //     console.log("component is unmounting");
-        // };
-    }, []);
+    //     // return () => {
+    //     //     // will run on every unmount.
+    //     //     console.log("component is unmounting");
+    //     // };
+    // }, []);
 
     const handleSubmit = async () => {
         setLoading(true);
-        var data = await messagingService.sendMessage(inputValue);
+        var data = await apiService.sendMessage(inputValue);
         setResult(data);
         setLoading(false);
     };
 
-    const handleClear = async () => {
-        setInputValue(defaultInputValue);
-        setResult(defaultDisplayValue);
-    };
+    // const handleClear = async () => {
+    //     setInputValue(defaultInputValue);
+    //     setResult(defaultDisplayValue);
+    // };
 
     const handleTextChange = async (value) => {
-        if (value === "") {
-            await handleClear();
-        } else {
-            setInputValue(value);
-        }
+        // if (value === "") {
+        //     await handleClear();
+        // } else {
+        setInputValue(value);
+        // }
     };
 
     return (
@@ -112,14 +110,14 @@ function MessagingBody() {
             <Container sm={12}>
                 <Grid>
                     <h2>
-                        <IntlMessages id={"messaging.primary.header"} />
+                        <IntlMessages id={"main.primary.header"} />
                     </h2>
                     <Grid container alignItems={"center"}>
                         <Grid item className={classes.input}>
                             <TextField
                                 id="input"
                                 className={classes.input}
-                                disabled={!signalrReadyState}
+                                // disabled={!signalrReadyState}
                                 variant="outlined"
                                 label={<IntlMessages id={"input.textField"} />}
                                 onChange={(e) =>
@@ -136,20 +134,16 @@ function MessagingBody() {
                                 onClick={handleSubmit}
                                 disabled={loading || inputValue === ""}
                             >
-                                <IntlMessages id="messaging.submitFunctionButton" />
+                                <IntlMessages id="main.submitFunctionButton" />
                             </Button>
                             <Button
                                 className={classes.button}
-                                sx={
-                                    result.value === null
-                                        ? { display: "none" }
-                                        : null
-                                }
-                                variant="outlined"
-                                onClick={handleClear}
+                                color="primary"
+                                variant="contained"
+                                onClick={handleSubmit}
                                 disabled={loading || inputValue === ""}
                             >
-                                <IntlMessages id="buttons.clearButton" />
+                                <IntlMessages id="main.submitWebApiButton" />
                             </Button>
                         </Grid>
                     </Grid>
@@ -165,7 +159,7 @@ function MessagingBody() {
                                 result.ok ? (
                                     <Typography>
                                         {intl.formatMessage({
-                                            id: "messaging.messageSentPrefix",
+                                            id: "main.messageSentPrefix",
                                         })}
                                     </Typography>
                                 ) : (
@@ -176,18 +170,11 @@ function MessagingBody() {
                             )}
                         </div>
                     </Grid>
-                    <div>
-                        {
-                            <SignalR
-                                readyState={signalrReadyState}
-                                connectionInfo={signalrConnectionInfo}
-                            />
-                        }
-                    </div>
+                    <div>TODO</div>
                 </Grid>
             </Container>
         </div>
     );
 }
 
-export default MessagingBody;
+export default MainBody;
