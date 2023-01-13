@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import IntlMessages from "util/IntlMessages";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useIntl } from "react-intl";
+// import { useIntl } from "react-intl";
 import apiService from "services/ApiService";
 import Typography from "@mui/material/Typography";
 
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MainBody() {
-    const intl = useIntl();
+    // const intl = useIntl();
     var defaultInputValue = "";
     var defaultDisplayValue = { ok: true, value: null };
 
@@ -64,18 +64,8 @@ function MainBody() {
     const [inputValue, setInputValue] = React.useState(defaultInputValue);
     const [result, setResult] = React.useState(defaultDisplayValue);
 
-    // // signalr: pass down to child via prop; executed in parent because it has dependencies in parent
-    // const [signalrReadyState, setSignalrReadyState] = React.useState(false);
-    // const [signalrConnectionInfo, setSignalrConnectionInfo] =
-    //     React.useState(null);
-
     // React.useEffect(() => {
     //     async function negotiate() {
-    //         setSignalrReadyState(false);
-    //         // console.log("Starting negotiate call...");
-    //         var info = await signalrService.negotiate();
-    //         setSignalrConnectionInfo(info);
-    //         setSignalrReadyState(true);
     //     }
     //     negotiate();
 
@@ -85,9 +75,9 @@ function MainBody() {
     //     // };
     // }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (endpoint) => {
         setLoading(true);
-        var data = await apiService.sendMessage(inputValue);
+        var data = await apiService.get(endpoint, inputValue);
         setResult(data);
         setLoading(false);
     };
@@ -117,7 +107,6 @@ function MainBody() {
                             <TextField
                                 id="input"
                                 className={classes.input}
-                                // disabled={!signalrReadyState}
                                 variant="outlined"
                                 label={<IntlMessages id={"input.textField"} />}
                                 onChange={(e) =>
@@ -131,8 +120,8 @@ function MainBody() {
                                 className={classes.button}
                                 color="primary"
                                 variant="contained"
-                                onClick={handleSubmit}
-                                disabled={loading || inputValue === ""}
+                                onClick={() => handleSubmit("function")}
+                                disabled={loading}
                             >
                                 <IntlMessages id="main.submitFunctionButton" />
                             </Button>
@@ -140,8 +129,8 @@ function MainBody() {
                                 className={classes.button}
                                 color="primary"
                                 variant="contained"
-                                onClick={handleSubmit}
-                                disabled={loading || inputValue === ""}
+                                onClick={() => handleSubmit("webApi")}
+                                disabled={loading}
                             >
                                 <IntlMessages id="main.submitWebApiButton" />
                             </Button>
@@ -156,21 +145,15 @@ function MainBody() {
                             }`}
                         >
                             {result.value !== null ? (
-                                result.ok ? (
-                                    <Typography>
-                                        {intl.formatMessage({
-                                            id: "main.messageSentPrefix",
-                                        })}
-                                    </Typography>
-                                ) : (
-                                    result.value
-                                )
+                                <Typography>{result.value}</Typography>
                             ) : (
-                                ""
+                                <Typography>
+                                    <IntlMessages id="main.makeRequest" />
+                                </Typography>
                             )}
                         </div>
                     </Grid>
-                    <div>TODO</div>
+                    {/* <div>TODO</div> */}
                 </Grid>
             </Container>
         </div>

@@ -7,9 +7,5 @@
     "main.submitFunctionButton": "Function Endpoint",
     "main.submitWebApiButton": "Web Endpoint",
     "main.messageSentPrefix": "Message sent",
-    "main.signalr.ready": "Ready",
-    "main.signalr.error": "Error",
-    "main.signalr.latestMessage": "Latest Message",
-    "main.signalr.noMessages": "No messages yet!",
-    "main.signalr.connecting": "Connecting..."
+    "main.makeRequest": "Enter APIM Key and make a request"
 }

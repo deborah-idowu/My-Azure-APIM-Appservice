@@ -21,4 +21,8 @@ export const serviceError = {
     status_code: 500,
 };
 
+export const customErrorMessage = (e) => {
+    return { value: e };
+};
+
 export default function constants() {}

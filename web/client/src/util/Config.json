@@ -1,4 +1,4 @@
 {
     "buildNumber": "local",
-    "apiUrl": ""
+    "rootApiUrl": "http://url.com"
 }

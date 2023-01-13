@@ -1,15 +1,16 @@
 import httpClient from "./HttpClient";
 
 export class ApiService {
+    async get(endpoint, key) {
 
-    async sendMessage(input) {
-        var body = {
-            value: input,
-        };
+        // TODO transform endpoint
+        var response = await httpClient.get(endpoint, key);
 
-        var response = await httpClient.get(`/api/messages`, body);
-
-        return await response.json();
+        try {
+            return await response.json();
+        } catch {
+            return response;
+        }
     }
 }
 
