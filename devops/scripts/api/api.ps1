@@ -25,8 +25,8 @@ $apiManagementServiceName = $envConfig.apiManagementServiceName
 $apiManagementApiPath = $envConfig.apiManagementApiPath
 $apiManagementApiName = $envConfig.apiManagementApiName
 $apiManagementApiDisplayName = $envConfig.apiManagementApiDisplayName
-# $apiManagementOrg = $envConfig.apiManagementOrg
-# $apiManagementAdminEmail = $envConfig.apiManagementAdminEmail
+$apiManagementOrg = $envConfig.apiManagementOrg
+$apiManagementAdminEmail = $envConfig.apiManagementAdminEmail
 
 Write-Host "Set config"
 Write-Host "Creating RG..."
@@ -45,6 +45,14 @@ az webapp create --resource-group $rgName --plan $appServicePlan --name $apiAppS
 
 ### APIM
 # az deployment group create --resource-group $rgName --template-file '../../bicep/api/apim.bicep' --parameters apiManagementServiceName=$apiManagementServiceName publisherEmail=$apiManagementAdminEmail publisherName=$apiManagementOrg
+
+# create service - by default, it is created in the Developer tier. This may take 30-40 minutes to activate, but the below command returns immediately while it is created.
+az apim create --name $apiManagementServiceName --resource-group $rgName --publisher-name $apiManagementOrg --publisher-email $apiManagementAdminEmail --no-wait
+
+# view status of deployment:
+# az apim show --name $apiManagementServiceName --resource-group $rgName --output table
+
+# create API - need to wait for service to activate
 az apim api create --api-id $apiManagementApiName --display-name $apiManagementApiDisplayName --path $apiManagementApiPath --resource-group $rgName --service-name $apiManagementServiceName
 
 # reset wd

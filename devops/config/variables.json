@@ -10,9 +10,9 @@
         "apiManagementApiPath": "/api",
         "apiManagementApiName": "DemoAPI",
         "apiManagementApiDisplayName": "Demo API",
-        "_apiManagementSubscription": "apiManagementSubscription",
-        "_apiManagementOrg": "acme",
-        "_apiManagementAdminEmail": "email@address.com",
+        "apiManagementSubscription": "apiManagementSubscription",
+        "apiManagementOrg": "acme",
+        "apiManagementAdminEmail": "email@address.com",
         "apiFunctionName": "appinnoapimdemofunc",
         "storageAccountName": "appinnoapimdemosa",
         "functionRuntimeVersion": "6"
