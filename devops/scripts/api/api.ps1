@@ -22,8 +22,10 @@ $appServiceName = $envConfig.appServiceName
 
 # APIM vars
 $apiManagementServiceName = $envConfig.apiManagementServiceName
-$apiManagementOrg = $envConfig.apiManagementOrg
-$apiManagementAdminEmail = $envConfig.apiManagementAdminEmail
+$apiManagementApiPath = $envConfig.apiManagementApiPath
+$apiManagementApiName = $envConfig.apiManagementApiName
+# $apiManagementOrg = $envConfig.apiManagementOrg
+# $apiManagementAdminEmail = $envConfig.apiManagementAdminEmail
 
 Write-Host "Set config"
 Write-Host "Creating RG..."
@@ -44,7 +46,7 @@ az webapp create --resource-group $rgName --plan $appServicePlan --name $apiAppS
 
 ### APIM
 # az deployment group create --resource-group $rgName --template-file '../../bicep/api/apim.bicep' --parameters apiManagementServiceName=$apiManagementServiceName publisherEmail=$apiManagementAdminEmail publisherName=$apiManagementOrg
-
+az apim api create --api-id $apiManagementApiName --display-name --path $apiManagementApiPath --resource-group $rgName --service-name $apiManagementServiceName
 
 # reset wd
 Set-Location $origPath
