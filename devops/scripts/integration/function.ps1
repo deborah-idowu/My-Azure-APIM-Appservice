@@ -10,7 +10,7 @@ $location = $envConfig.location
 $apiFunctionName = $envConfig.apiFunctionName
 $storageAccount = $envConfig.storageAccountName
 $appServicePlan = $envConfig.appServicePlan
-$pythonVersion = $envConfig.functionPythonVersion
+$runtimeVersion = $envConfig.functionRuntimeVersion
 
 Write-Host "Set config"
 Write-Host "Creating RG..."
@@ -21,13 +21,16 @@ az group create --name $rgName --location $location
 Write-Host "Created RG"
 
 Write-Host "Creating Storage Account and Function..."
-# functions
-# az cli works well for functions
+
+# storage account
 az storage account create --name $storageAccount --resource-group $rgName --sku "Standard_LRS"
 
-# TODO: update plan used by function
+# plan used by function
+az appservice plan create --resource-group $rgName --name $appServicePlan --sku "B1" --location $location --is-linux
+
 # note: automatically creates app insights resource
-az functionapp create --name $apiFunctionName --resource-group $rgName --storage-account $storageAccount --os-type "Linux"  --runtime "python" --runtime-version $pythonVersion --functions-version 4 --plan $appServicePlan # --consumption-plan-location "centralUS"
+# az functionapp list-runtimes
+az functionapp create --name $apiFunctionName --resource-group $rgName --storage-account $storageAccount --os-type "Linux"  --runtime "dotnet" --runtime-version $runtimeVersion --functions-version 4 --plan $appServicePlan # --consumption-plan-location "centralUS"
 
 Write-Host "Created Storage Account and Function"
 

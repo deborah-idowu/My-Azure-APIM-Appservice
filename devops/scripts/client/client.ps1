@@ -28,7 +28,7 @@ az group create --name $rgName --location $location
 
 Write-Host "Created RG"
 
-### App service ###
+# App service
 
 # az webapp list-runtimes
 az appservice plan create --resource-group $rgName --name $appServicePlan --sku "B1" --location $location --is-linux

@@ -7,11 +7,14 @@
         "webAppServiceName": "appinnoapimdemoweb",
         "apiAppServiceName": "appinnoapimdemoapi",
         "apiManagementServiceName": "appinnoapimdemoapim",
-        "apiManagementSubscription": "apiManagementSubscription",
-        "apiManagementOrg": "acme",
-        "apiManagementAdminEmail": "email@address.com",
+        "apiManagementApiPath": "/api",
+        "apiManagementApiName": "DemoAPI",
+        "apiManagementApiDisplayName": "Demo API",
+        "_apiManagementSubscription": "apiManagementSubscription",
+        "_apiManagementOrg": "acme",
+        "_apiManagementAdminEmail": "email@address.com",
         "apiFunctionName": "appinnoapimdemofunc",
         "storageAccountName": "appinnoapimdemosa",
-        "functionPythonVersion": "3.9"
+        "functionRuntimeVersion": "6"
     }
 }
