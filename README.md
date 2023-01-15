@@ -113,29 +113,29 @@ _A diagram visually describing the flow of code from local development to GitHub
 
 _Since this codebase demonstrates a basic setup, several additional steps can be taken to configure the architecture for production. Some of the main considerations are listed below._
 
--   Restricting traffic to only be routed through APIM
+-   Restrict traffic to only be routed through APIM
     -   As set up in this tutorial, the backend services communicate with API Management, but are still available on the internet. In a production scenario, you should restrict access to the backends so that traffic can be routed via the API Management instance. There are a variety of ways to achieve this, some of them being:
         -   [IP-based rules](https://learn.microsoft.com/en-us/azure/app-service/app-service-ip-restrictions?tabs=azurecli#set-an-ip-address-based-rule)
         -   [Client Certificate Authentication](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-mutual-certificates)
         -   [Network-level security](https://github.com/mspnp/vnet-integrated-serverless-microservices/blob/main/docs/security_pattern.md)
--   Importing additional APIs
+-   Import additional APIs
     -   APIs can be imported from a variety of backend types, including Azure Kubernetes Service, Logic Apps, or as one-off HTTP endpoints.
     -   OpenAPI 3 APIs can be easily imported as described [here](https://devblogs.microsoft.com/premier-developer/importing-an-openapi-api-into-azure-api-management-service/).
--   Active directory integration
+-   Authenication and authorization
     -   API Management has various [authenication and authorization](https://learn.microsoft.com/en-us/azure/api-management/authentication-authorization-overview) mechanisms available to secure user access to features and APIs.
     -   You can use Azure Active Directory with [OAuth](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-protect-backend-with-aad) or [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/secure-api-management?tabs=app-reg-ga) to achieve this.
 -   Create API revisions and versions
     -   [Revisions](https://learn.microsoft.com/en-us/azure/api-management/api-management-revisions) allow you to modify your API endpoints in a safe/non-breaking way.
-    -   Consumers of an API will be able to choose which [version] of your API to use.
+    -   Consumers of an API will be able to choose which [version](https://learn.microsoft.com/en-us/azure/api-management/api-management-versions) of your API to use.
 -   Create policies
     -   You may add [policies](https://learn.microsoft.com/en-us/azure/api-management/set-edit-policies?tabs=form) to inbound and outbound requests to control things like rate limiting, transforming headers, caching, validating JWT tokens, etc.
 -   Scaling up
-    -   The Consumption and Developer tiers may be appropriate for prototyping and evaluating the service, whereas the Standard and Premium tiers are intended for production usage, with more features to handle larger workloads.
+    -   The Consumption and Developer tiers may be appropriate for prototyping and evaluating the service, whereas the Standard and Premium tiers are intended for production usage, with more features to handle larger workloads. By default, this example uses the Developer tier.
     -   See more about the available tiers and features [here](https://learn.microsoft.com/en-us/azure/api-management/api-management-features).
 
 ## Potential Use Cases
 
--   There are many practical use cases for using API Management, some of which include:
+-   There are many practical use cases for using Azure API Management, some of which include:
     1.  Using an API gateway to secure and manage access to backend services.
     2.  Having an API developer portal to easily onboard developers and publish API documentation.
     3.  Enforcing usage quotas and rate limits to ensure that only authorized users have access to the API.
