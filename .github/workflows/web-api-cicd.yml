@@ -3,7 +3,7 @@ name: Web API CI/CD Workflow
 on:
     push:
         branches:
-            - "NA" # prevent action
+            - "dev"
 
 # env:
 #     AZURE_FUNCTIONAPP_PACKAGE_PATH: "./api-function"

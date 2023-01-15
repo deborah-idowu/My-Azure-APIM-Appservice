@@ -3,7 +3,7 @@ name: Function CI/CD Workflow
 on:
     push:
         branches:
-            - "dev" # prevent action
+            - "NA"
 
 env:
     AZURE_FUNCTIONAPP_PACKAGE_PATH: "./api-function"
