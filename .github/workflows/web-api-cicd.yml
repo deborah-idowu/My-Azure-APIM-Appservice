@@ -42,7 +42,7 @@ jobs:
 
             - name: Publish
               working-directory: ${{ env.WEB_API_PROJECT_PATH }}
-              run: dotnet publish ${{ env.WEB_API_PROJECT_PATH }}/api/api.csproj -c Release -o webapi
+              run: dotnet publish ./api/api.csproj -c Release -o webapi
 
             - name: Upload a Build Artifact
               uses: actions/upload-artifact@v3
