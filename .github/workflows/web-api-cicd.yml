@@ -5,10 +5,8 @@ on:
         branches:
             - "dev"
 
-# env:
-#     AZURE_FUNCTIONAPP_PACKAGE_PATH: "./api-function"
-#     DOTNET_VERSION: 6.0.x
-#     OUTPUT_PATH: ${{ github.workspace }}/.output
+env:
+    WEB_API_PROJECT_PATH: "./web/api"
 
 jobs:
     # pass data to reusable workflow
@@ -32,22 +30,25 @@ jobs:
                   dotnet-version: ${{ fromJson(needs.configuration.outputs.variables).functionRuntimeVersion }}.0.x
 
             - name: Restore dependencies
+              working-directory: ${{ env.WEB_API_PROJECT_PATH }}
               run: dotnet restore
 
             - name: Build
+              working-directory: ${{ env.WEB_API_PROJECT_PATH }}
               run: dotnet build --no-restore
 
             # - name: Test
             #   run: dotnet test --no-build --verbosity normal
 
             - name: Publish
-              run: dotnet publish web/api/api.csproj -c Release -o webapi
+              working-directory: ${{ env.WEB_API_PROJECT_PATH }}
+              run: dotnet publish ${{ env.WEB_API_PROJECT_PATH }}/api/api.csproj -c Release -o webapi
 
             - name: Upload a Build Artifact
               uses: actions/upload-artifact@v3
               with:
                   name: webapi
-                  path: web/api/webapi/**
+                  path: ${{ env.WEB_API_PROJECT_PATH }}/webapi/**
                   if-no-files-found: error
 
     deployWebApi:
