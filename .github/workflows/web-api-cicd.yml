@@ -1,0 +1,76 @@
+name: Web API CI/CD Workflow
+
+on:
+    push:
+        branches:
+            - "NA" # prevent action
+
+# env:
+#     AZURE_FUNCTIONAPP_PACKAGE_PATH: "./api-function"
+#     DOTNET_VERSION: 6.0.x
+#     OUTPUT_PATH: ${{ github.workspace }}/.output
+
+jobs:
+    # pass data to reusable workflow
+    configuration:
+        name: "Configuration"
+        uses: ./.github/workflows/config.yml
+
+    buildWebApi:
+        name: "Build Web API"
+
+        needs: [configuration]
+        runs-on: ubuntu-latest
+        steps:
+            # checkout the repo
+            - name: "Checkout Repo"
+              uses: actions/checkout@v2
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: ${{ fromJson(needs.configuration.outputs.variables).functionRuntimeVersion }}.0.x
+
+            - name: Restore dependencies
+              run: dotnet restore
+
+            - name: Build
+              run: dotnet build --no-restore
+
+            # - name: Test
+            #   run: dotnet test --no-build --verbosity normal
+
+            - name: Publish
+              run: dotnet publish web/api/api.csproj -c Release -o webapi
+
+            - name: Upload a Build Artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: webapi
+                  path: web/api/webapi/**
+                  if-no-files-found: error
+
+    deployWebApi:
+        name: "Deploy Web API"
+
+        needs: [configuration, buildWebApi]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download a Build Artifact
+              uses: actions/download-artifact@v3
+              with:
+                  name: webapi
+                  path: webapi
+
+            - name: Login via Azure CLI
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+
+            - name: Deploy web app
+              id: deploywebapp
+              uses: azure/webapps-deploy@v2
+              with:
+                  app-name: ${{ fromJson(needs.configuration.outputs.variables).apiAppServiceName }}
+                  # slot-name: staging
+                  package: webapi
