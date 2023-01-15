@@ -3,7 +3,7 @@ name: Web API CI/CD Workflow
 on:
     push:
         branches:
-            - "dev"
+            - "NA"
 
 env:
     WEB_API_PROJECT_PATH: "./web/api"
