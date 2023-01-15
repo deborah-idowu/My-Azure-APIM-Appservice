@@ -94,11 +94,21 @@ The solution presented in this codebase is simple and should be viewed as a foun
 
     -   This will build, publish, and deploy a web API to the API App Service deployed above.
 
-3.  Run `devops/scripts/api/endpoint-setup.ps1` - this will configure APIs in API Management using the App Service and Function endpoints.
+3.  Set up the APIs and Product:
+
+    -   In the Azure Portal, navigate to the API Management resource, choose the 'APIs' blade, and scroll down to 'Create from Azure resource'. Follow these guides to import the resources you created as APIs (accept the defaults):
+
+        -   [Import Azure Function App as an API](https://learn.microsoft.com/en-us/azure/api-management/import-function-app-as-api)
+        -   [Import Azure App Service as an API](https://learn.microsoft.com/en-us/azure/api-management/import-app-service-as-api)
+
+    -   In the Azure Portal, navigate to the API Management resource, choose the 'Products' blade, and follow this guide to create a product:
+        -   [Create and publish a product](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-add-products?tabs=azure-portal)
+            -   When creating the product, add the APIs that you just created.
 
 4.  Deploy the web client to App Service by updating the branch trigger in the `.github/workflows/client-cicd.yml ` file to trigger the GitHub Action.
 
     -   This will build and deploy the React app to the web App Service deployed above.
+    -   _The deployment script assumes that the default values were accepted when importing the Function and App Service into API Management in the previous step. If any customizations were made, the 'Variable replacement' task in the GitHub Action will need to be modified._
 
 ## Architecture & Workflow
 
@@ -107,6 +117,7 @@ _A diagram visually describing the flow of code from local development to GitHub
 
 1. The Function's `/ApiFunction` endpoint returns a simple string, and the Web API exposes a `/Hello` endpoint, which also returns a simple string. The end user invokes these endpoints by calling their abstracted endpoint via API Management.
     - In the UI, the user is prompted to provide an API key. The return values of these endpoints are printed to the page once execution is complete.
+    - To get a Subscription key, navigate to the API Management service in the Azure Portal and open the 'Subscriptions' blade. Choose either the Primary or Secondary key for the Product that you created above.
 2. Although the client application was created as a demonstration of calling the APIs via JavaScript, you may use any utility to call the APIs, including the [built-in testing tool](https://learn.microsoft.com/en-us/azure/api-management/import-and-publish#test-the-new-api-in-the-azure-portal) in the Azure Portal.
 
 ## Considerations & Next Steps

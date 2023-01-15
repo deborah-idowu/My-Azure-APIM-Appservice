@@ -5,6 +5,10 @@ on:
         branches:
             - "NA" # prevent action
 
+env:
+    API_FUNCTION_ENDPOINT: "FunctionApi"
+    WEB_API_ENDPOINT: "Hello"
+
 jobs:
     # pass data to reusable workflow
     configuration:
@@ -39,6 +43,8 @@ jobs:
               env:
                   buildNumber: ver-${{ github.run_number }}
                   rootApiUrl: ${{ env.gatewayUrl }}
+                  functionEndpoint: ${{ fromJson(needs.configuration.outputs.variables).apiFunctionName }}/${{ env.API_FUNCTION_ENDPOINT }}
+                  webApiEndpoint: ${{ env.WEB_API_ENDPOINT }}
 
             - name: Set up Node.js version
               uses: actions/setup-node@v1

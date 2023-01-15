@@ -1,4 +1,6 @@
 {
     "buildNumber": "local",
-    "rootApiUrl": "http://url.com"
+    "rootApiUrl": "<replace>",
+    "functionEndpoint": "<replace>",
+    "webApiEndpoint": "<replace>"
 }

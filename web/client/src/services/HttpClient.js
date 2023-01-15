@@ -2,10 +2,10 @@ const Constants = require("../constants/Constants");
 const { rootApiUrl } = require("util/Config.json");
 
 export class HttpClient {
-    get = async (url, key) => {
+    get = async (endpoint, key) => {
         try {
             let req = await this._createRequest("GET");
-            return await this._processRequest(req, url, key);
+            return await this._processRequest(req, endpoint, key);
         } catch (e) {
             console.error(e);
             return this._wrapResponse(
@@ -15,10 +15,10 @@ export class HttpClient {
         }
     };
 
-    delete = async (url, key) => {
+    delete = async (endpoint, key) => {
         try {
             let req = await this._createRequest("DELETE");
-            return await this._processRequest(req, url, key);
+            return await this._processRequest(req, endpoint, key);
         } catch (e) {
             console.error(e);
             return this._wrapResponse(
@@ -28,10 +28,10 @@ export class HttpClient {
         }
     };
 
-    post = async (url, body, contentType, key) => {
+    post = async (endpoint, body, contentType, key) => {
         try {
             let req = await this._createRequest("POST", body, contentType);
-            return await this._processRequest(req, url, key);
+            return await this._processRequest(req, endpoint, key);
         } catch (e) {
             console.error(e);
             return this._wrapResponse(
@@ -43,8 +43,8 @@ export class HttpClient {
 
     // pass in url - if it is an absolute URL (tested by regex), then treat as anonymous
     // TODO develop a more robust solution/allow for constructing non-anonymous API calls
-    generateUrl = async (url, key) => {
-        var fullUrl = `${rootApiUrl}/${url}`;
+    generateUrl = async (endpoint, key) => {
+        var fullUrl = `${rootApiUrl}/${endpoint}`;
         console.log(fullUrl)
         if (key !== "") {
             fullUrl = fullUrl + `?subscription-key=${key}`;
@@ -52,9 +52,9 @@ export class HttpClient {
         return fullUrl;
     };
 
-    _processRequest = async (req, url, key) => {
+    _processRequest = async (req, endpoint, key) => {
         try {
-            let resp = await fetch(await this.generateUrl(url, key), req);
+            let resp = await fetch(await this.generateUrl(endpoint, key), req);
             resp = await resp;
             let isValid = await this._validateResponse(resp);
 
