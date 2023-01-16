@@ -7,5 +7,5 @@
     "main.submitFunctionButton": "Function Endpoint",
     "main.submitWebApiButton": "Web Endpoint",
     "main.messageSentPrefix": "Message sent",
-    "main.makeRequest": "Enter APIM Key and make a request"
+    "main.makeRequest": "Enter APIM Subscription Key and make a request"
 }
