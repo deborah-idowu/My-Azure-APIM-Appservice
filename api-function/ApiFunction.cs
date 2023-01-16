@@ -13,24 +13,18 @@ namespace Api.Function
     public static class ApiFunction
     {
         [FunctionName("ApiFunction")]
-        public static async Task<IActionResult> Run(
+        public static async Task<string> Run(
             // [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["name"];
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
-
-            string responseMessage = string.IsNullOrEmpty(name)
-                ? "Hello - from Function"
-                : $"Hello {name} - from Function";
-
-            return new OkObjectResult(responseMessage);
+            var result = new
+            {
+                Message = "Hello from Function"
+            };
+            return JsonConvert.SerializeObject(result);
         }
     }
 }

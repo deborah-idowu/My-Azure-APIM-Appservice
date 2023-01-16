@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace api.Controllers
 {
@@ -14,13 +15,13 @@ namespace api.Controllers
         }
 
         [HttpGet(Name = "GetHello")]
-        //public Hello Get()
-        //{
-        //    return new Hello { Message = "Hello from .NET API" };
-        //}
         public string Get()
         {
-            return "Hello from .NET API";
+            var result = new
+            {
+                Message = "Hello from .NET API"
+            };
+            return JsonConvert.SerializeObject(result);
         }
     }
 }
