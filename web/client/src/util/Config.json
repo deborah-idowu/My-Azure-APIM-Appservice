@@ -1,6 +1,6 @@
 {
     "buildNumber": "local",
-    "rootApiUrl": "<replace>",
-    "functionEndpoint": "<replace>",
-    "webApiEndpoint": "<replace>"
+    "rootApiUrl": "https://appinnoapimdemoapim.azure-api.net",
+    "functionEndpoint": "appinnoapimdemofunc/ApiFunction",
+    "webApiEndpoint": "Hello"
 }

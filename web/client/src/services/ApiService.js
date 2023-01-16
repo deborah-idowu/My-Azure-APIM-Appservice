@@ -14,7 +14,11 @@ export class ApiService {
 
         var response = await httpClient.get(configEndpoint, key);
 
-        return response;
+        try {
+            return await response.json();
+        } catch {
+            return response;
+        }
     }
 }
 

@@ -6,6 +6,7 @@ export class HttpClient {
         try {
             let req = await this._createRequest("GET");
             return await this._processRequest(req, endpoint, key);
+            
         } catch (e) {
             console.error(e);
             return this._wrapResponse(
@@ -101,7 +102,6 @@ export class HttpClient {
             }
         }
 
-        console.log(resp);
         return {
             ...resp,
             ok: isSuccessful,

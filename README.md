@@ -107,7 +107,7 @@ The solution presented in this codebase is simple and should be viewed as a foun
         -   [Create and publish a product](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-add-products?tabs=azure-portal)
             -   When creating the product, add the APIs that you just created.
 
-    -   To test the React app locally, you may consider adding a [CORS policy](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies#cross-domain-policies) for the APIs you created. A policy which allows all origins can be found at `devops/scripts/api/policy.xml`.
+    -   To test the React app locally, you may consider adding a [CORS policy](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies#cross-domain-policies) for the APIs you created. A policy which allows all origins can be found at `devops/scripts/api/cors-policy.xml`.
 
 4.  Deploy the web client to App Service by updating the branch trigger in the `.github/workflows/client-cicd.yml ` file to trigger the GitHub Action.
 
@@ -151,11 +151,11 @@ _Since this codebase demonstrates a basic setup, several additional steps can be
 ## Potential Use Cases
 
 -   There are many practical use cases for using Azure API Management, some of which include:
-    1.  Using an API gateway to secure and manage access to backend services.
-    2.  Having an API developer portal to easily onboard developers and publish API documentation.
-    3.  Enforcing usage quotas and rate limits to ensure that only authorized users have access to the API.
-    4.  Transforming incoming and outgoing data for better compatibility with other services.
-    5.  Leveraging out-of-the-box policies for authentication, authorization, and rate limiting.
+    -   Using an API gateway to secure and manage access to backend services.
+    -   Having an API developer portal to easily onboard developers and publish API documentation.
+    -   Enforcing usage quotas and rate limits to ensure that only authorized users have access to the API.
+    -   Transforming incoming and outgoing data for better compatibility with other services.
+    -   Leveraging out-of-the-box policies for authentication, authorization, and rate limiting.
 
 ## Additional Resources
 

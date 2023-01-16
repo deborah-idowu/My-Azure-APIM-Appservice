@@ -146,7 +146,7 @@ function MainBody() {
                             }`}
                         >
                             {result.value !== null ? (
-                                <Typography>{result.value}</Typography>
+                                <Typography>{result.message}</Typography>
                             ) : (
                                 <Typography>
                                     <IntlMessages id="main.makeRequest" />
@@ -154,7 +154,6 @@ function MainBody() {
                             )}
                         </div>
                     </Grid>
-                    {/* <div>TODO</div> */}
                 </Grid>
             </Container>
         </div>

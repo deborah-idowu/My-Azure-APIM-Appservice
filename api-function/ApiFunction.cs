@@ -22,7 +22,7 @@ namespace Api.Function
 
             var result = new
             {
-                Message = "Hello from Function"
+                message = "Hello from Function"
             };
             return JsonConvert.SerializeObject(result);
         }

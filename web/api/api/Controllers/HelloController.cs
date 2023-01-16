@@ -19,7 +19,7 @@ namespace api.Controllers
         {
             var result = new
             {
-                Message = "Hello from .NET API"
+                message = "Hello from .NET API"
             };
             return JsonConvert.SerializeObject(result);
         }
