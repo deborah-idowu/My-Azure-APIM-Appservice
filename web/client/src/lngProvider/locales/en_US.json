@@ -1,7 +1,7 @@
 {
     "common.submitButton": "Submit",
     "buttons.clearButton": "Clear",
-    "input.textField": "Input",
+    "input.textField": "API Key",
     "notFound.message": "Page not found!",
     "main.primary.header": "API Management",
     "main.submitFunctionButton": "Function Endpoint",

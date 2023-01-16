@@ -13,12 +13,17 @@ export const LanguageOptions = [
         value: "en",
         locale: "en-US",
         name: "footer.lang.english",
-    }
+    },
 ];
 
 export const serviceError = {
     ok: false,
     status_code: 500,
+};
+
+export const endpoints = {
+    webApi: "webApi",
+    function: "function",
 };
 
 export const customErrorMessage = (e) => {

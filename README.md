@@ -100,10 +100,14 @@ The solution presented in this codebase is simple and should be viewed as a foun
 
         -   [Import Azure Function App as an API](https://learn.microsoft.com/en-us/azure/api-management/import-function-app-as-api)
         -   [Import Azure App Service as an API](https://learn.microsoft.com/en-us/azure/api-management/import-app-service-as-api)
+            -   You may need to add the App Service URL in the 'Web service URL' setting of the App Service API after importing it if you're seeing an HTTP 500 - Internal Server Error as described [here](https://stackoverflow.com/a/50866941/8333117).
 
     -   In the Azure Portal, navigate to the API Management resource, choose the 'Products' blade, and follow this guide to create a product:
+
         -   [Create and publish a product](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-add-products?tabs=azure-portal)
             -   When creating the product, add the APIs that you just created.
+
+    -   To test the React app locally, you may consider adding a [CORS policy](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies#cross-domain-policies) for the APIs you created. A policy which allows all origins can be found at `devops/scripts/api/policy.xml`.
 
 4.  Deploy the web client to App Service by updating the branch trigger in the `.github/workflows/client-cicd.yml ` file to trigger the GitHub Action.
 

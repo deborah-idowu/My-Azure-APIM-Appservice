@@ -6,7 +6,7 @@ on:
             - "NA" # prevent action
 
 env:
-    API_FUNCTION_ENDPOINT: "FunctionApi"
+    API_FUNCTION_ENDPOINT: "ApiFunction"
     WEB_API_ENDPOINT: "Hello"
 
 jobs:

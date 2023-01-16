@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 // import { useIntl } from "react-intl";
 import apiService from "services/ApiService";
 import Typography from "@mui/material/Typography";
+import { endpoints } from "constants/Constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -120,7 +121,7 @@ function MainBody() {
                                 className={classes.button}
                                 color="primary"
                                 variant="contained"
-                                onClick={() => handleSubmit("function")}
+                                onClick={() => handleSubmit(endpoints.function)}
                                 disabled={loading}
                             >
                                 <IntlMessages id="main.submitFunctionButton" />
@@ -129,7 +130,7 @@ function MainBody() {
                                 className={classes.button}
                                 color="primary"
                                 variant="contained"
-                                onClick={() => handleSubmit("webApi")}
+                                onClick={() => handleSubmit(endpoints.webApi)}
                                 disabled={loading}
                             >
                                 <IntlMessages id="main.submitWebApiButton" />

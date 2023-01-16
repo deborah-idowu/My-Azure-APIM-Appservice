@@ -45,7 +45,6 @@ export class HttpClient {
     // TODO develop a more robust solution/allow for constructing non-anonymous API calls
     generateUrl = async (endpoint, key) => {
         var fullUrl = `${rootApiUrl}/${endpoint}`;
-        console.log(fullUrl)
         if (key !== "") {
             fullUrl = fullUrl + `?subscription-key=${key}`;
         }
