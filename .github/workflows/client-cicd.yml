@@ -78,10 +78,17 @@ jobs:
               with:
                   name: reactapp
 
+            - name: "Get Publish Profile"
+              shell: pwsh
+              run: |
+                  $profile = $(az webapp deployment list-publishing-profiles --name ${{ fromJson(needs.configuration.outputs.variables).apiAppServiceName }} --resource-group ${{ fromJson(needs.configuration.outputs.variables).resourceGroup }} --xml)
+                  echo "::add-mask::$profile"
+                  echo "webApiPublishProfile=$profile" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+
             - name: Deploy to Azure Web App
               id: deploy-to-webapp
               uses: azure/webapps-deploy@v2
               with:
                   app-name: ${{ fromJson(needs.configuration.outputs.variables).webAppServiceName }}
-                  publish-profile: $
+                  publish-profile: ${{ env.webApiPublishProfile }}
                   package: .

@@ -136,8 +136,8 @@ _Since this codebase demonstrates a basic setup, several additional steps can be
 -   Import additional APIs
     -   APIs can be imported from a variety of backend types, including Azure Kubernetes Service, Logic Apps, or as one-off HTTP endpoints.
     -   OpenAPI 3 APIs can be easily imported as described [here](https://devblogs.microsoft.com/premier-developer/importing-an-openapi-api-into-azure-api-management-service/).
--   Authenication and authorization
-    -   API Management has various [authenication and authorization](https://learn.microsoft.com/en-us/azure/api-management/authentication-authorization-overview) mechanisms available to secure user access to features and APIs.
+-   Authentication and authorization
+    -   API Management has various [authentication and authorization](https://learn.microsoft.com/en-us/azure/api-management/authentication-authorization-overview) mechanisms available to secure user access to features and APIs.
     -   You can use Azure Active Directory with [OAuth](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-protect-backend-with-aad) or [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/secure-api-management?tabs=app-reg-ga) to achieve this.
 -   Create API revisions and versions
     -   [Revisions](https://learn.microsoft.com/en-us/azure/api-management/api-management-revisions) allow you to modify your API endpoints in a safe/non-breaking way.
