@@ -146,7 +146,7 @@ function MainBody() {
                             }`}
                         >
                             {result.value !== null ? (
-                                <Typography>{result.message}</Typography>
+                                <Typography>{result.value}</Typography>
                             ) : (
                                 <Typography>
                                     <IntlMessages id="main.makeRequest" />

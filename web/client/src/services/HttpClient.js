@@ -6,7 +6,6 @@ export class HttpClient {
         try {
             let req = await this._createRequest("GET");
             return await this._processRequest(req, endpoint, key);
-            
         } catch (e) {
             console.error(e);
             return this._wrapResponse(
@@ -93,13 +92,12 @@ export class HttpClient {
                 if ("message" in resp) {
                     resp = { value: resp["message"] };
                 }
-                // else {
-                //     resp = Constants.customErrorMessage(e.message);
-                // }
             } catch (e) {
                 console.error(e);
                 resp = Constants.customErrorMessage(e.message);
             }
+        } else {
+            resp = { value: resp["message"] };
         }
 
         return {
