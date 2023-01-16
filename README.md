@@ -88,7 +88,7 @@ The solution presented in this codebase is simple and should be viewed as a foun
 
 1.  Deploy the Function App by updating the branch trigger in the `.github/workflows/function-cicd.yml` file to trigger the GitHub Action.
 
-    -   This will publish, package, and deploy the .NET 'ApiFunction' to the above deployed Function App. This function is described in more detail in the below section.
+    -   This will publish, package, and deploy the .NET 'ApiFunction' to the above deployed Function App.
 
 2.  Deploy the web API to App Service by updating the branch trigger in the `.github/workflows/web-api-cicd.yml ` file to trigger the GitHub Action.
 
@@ -131,7 +131,7 @@ _A diagram visually describing the flow of code from local development to GitHub
 _Since this codebase demonstrates a basic setup, several additional steps can be taken to configure the architecture for production. Some of the main considerations are listed below._
 
 -   Restrict traffic to only be routed through APIM
-    -   As set up in this tutorial, the backend services communicate with API Management, but are still available on the internet. In a production scenario, you should restrict access to the backends so that traffic can be routed via the API Management instance. There are a variety of ways to achieve this, some of them being:
+    -   As set up in this tutorial, the backend services communicate with API Management, but are still available on the internet. In a production scenario, you should restrict access to the backends so that traffic is only routed via the API Management instance. There are a variety of ways to achieve this, some of them being:
         -   [IP-based rules](https://learn.microsoft.com/en-us/azure/app-service/app-service-ip-restrictions?tabs=azurecli#set-an-ip-address-based-rule)
         -   [Client Certificate Authentication](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-mutual-certificates)
         -   [Network-level security](https://github.com/mspnp/vnet-integrated-serverless-microservices/blob/main/docs/security_pattern.md)
@@ -140,7 +140,7 @@ _Since this codebase demonstrates a basic setup, several additional steps can be
     -   OpenAPI 3 APIs can be easily imported as described [here](https://devblogs.microsoft.com/premier-developer/importing-an-openapi-api-into-azure-api-management-service/).
 -   Authentication and authorization
     -   API Management has various [authentication and authorization](https://learn.microsoft.com/en-us/azure/api-management/authentication-authorization-overview) mechanisms available to secure user access to features and APIs.
-    -   You can use Azure Active Directory with [OAuth](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-protect-backend-with-aad) or [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/secure-api-management?tabs=app-reg-ga) to achieve this.
+    -   You can integrate API Management with Azure Active Directory via [OAuth](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-protect-backend-with-aad) or [AD B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/secure-api-management?tabs=app-reg-ga).
 -   Create API revisions and versions
     -   [Revisions](https://learn.microsoft.com/en-us/azure/api-management/api-management-revisions) allow you to modify your API endpoints in a safe/non-breaking way.
     -   Consumers of an API will be able to choose which [version](https://learn.microsoft.com/en-us/azure/api-management/api-management-versions) of your API to use.
@@ -152,7 +152,7 @@ _Since this codebase demonstrates a basic setup, several additional steps can be
 
 ## Potential Use Cases
 
--   There are many practical use cases for using Azure API Management, some of which include:
+-   There are several practical use cases for using Azure API Management, some of which include:
     -   Using an API gateway to secure and manage access to backend services.
     -   Having an API developer portal to easily onboard developers and publish API documentation.
     -   Enforcing usage quotas and rate limits to ensure that only authorized users have access to the API.
