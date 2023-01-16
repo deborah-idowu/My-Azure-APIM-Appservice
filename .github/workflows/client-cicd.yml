@@ -3,7 +3,7 @@ name: Client Web App CI/CD Workflow
 on:
     push:
         branches:
-            - "dev"
+            - "NA"
 
 env:
     API_FUNCTION_ENDPOINT: "ApiFunction"

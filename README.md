@@ -112,8 +112,8 @@ The solution presented in this codebase is simple and should be viewed as a foun
 4.  Deploy the web client to App Service by updating the branch trigger in the `.github/workflows/client-cicd.yml ` file to trigger the GitHub Action.
 
     -   This will build and deploy the React app to the web App Service deployed above.
-    - After deploying, you will need to configure the startup command.
-    In the Azure Portal, open the App Service, and in the Configuration blade, choose the 'General settings' tab, and set the Startup Command as ``
+    -   After deploying, you will need to configure the startup command.
+        In the Azure Portal, open the App Service, and in the Configuration blade, choose the 'General settings' tab, and set the Startup Command as `pm2 serve /home/site/wwwroot --no-daemon`.
     -   _The deployment script assumes that the default values were accepted when importing the Function and App Service into API Management in the previous step. If any customizations were made, the 'Variable replacement' task in the GitHub Action will need to be modified._
 
 ## Architecture & Workflow
