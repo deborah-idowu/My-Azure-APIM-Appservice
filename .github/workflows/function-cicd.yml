@@ -1,0 +1,64 @@
+name: Function CI/CD Workflow
+
+on:
+    push:
+        branches:
+            - "NA"
+
+env:
+    AZURE_FUNCTIONAPP_PACKAGE_PATH: "./api-function"
+    # DOTNET_VERSION: 6.0.x
+    OUTPUT_PATH: ${{ github.workspace }}/.output
+
+jobs:
+    # pass data to reusable workflow
+    configuration:
+        name: "Configuration"
+        uses: ./.github/workflows/config.yml
+
+    buildFunctionApp:
+        name: "Build Function App"
+
+        needs: [configuration]
+        runs-on: ubuntu-latest
+        steps:
+            # checkout the repo
+            - name: "Checkout Repo"
+              uses: actions/checkout@v2
+
+            - name: Setup DotNet ${{ fromJson(needs.configuration.outputs.variables).functionRuntimeVersion }} Environment
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ fromJson(needs.configuration.outputs.variables).functionRuntimeVersion }}.0.x
+
+            - name: Publish Function
+              run: dotnet publish ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/csharp-function.csproj --configuration Release --output ${{ env.OUTPUT_PATH }}
+
+            - name: Package Function
+              uses: actions/upload-artifact@v1
+              with:
+                  name: function
+                  path: ${{ env.OUTPUT_PATH }}
+
+    deployFunctionApp:
+        name: "Deploy Function App"
+
+        needs: [configuration, buildFunctionApp]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download Artifact
+              uses: actions/download-artifact@v1
+              with:
+                  name: function
+                  path: ${{ env.OUTPUT_PATH }}
+
+            - name: Login via Azure CLI
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+
+            - name: Deploy Function to Azure
+              uses: Azure/functions-action@v1
+              with:
+                  app-name: ${{ fromJson(needs.configuration.outputs.variables).apiFunctionName }}
+                  package: ${{ env.OUTPUT_PATH }}

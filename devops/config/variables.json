@@ -1,0 +1,20 @@
+{
+    "env": "dev",
+    "dev": {
+        "resourceGroup": "apim-demo",
+        "location": "centralUS",
+        "appServicePlan": "appinnoapimdemoplan",
+        "webAppServiceName": "appinnoapimdemoweb",
+        "apiAppServiceName": "appinnoapimdemoapi",
+        "apiManagementServiceName": "appinnoapimdemoapim",
+        "apiManagementApiPath": "/api",
+        "apiManagementApiName": "DemoAPI",
+        "apiManagementApiDisplayName": "Demo API",
+        "apiManagementSubscription": "apiManagementSubscription",
+        "apiManagementOrg": "acme",
+        "apiManagementAdminEmail": "email@address.com",
+        "apiFunctionName": "appinnoapimdemofunc",
+        "storageAccountName": "appinnoapimdemosa",
+        "functionRuntimeVersion": "6"
+    }
+}

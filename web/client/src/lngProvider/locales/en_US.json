@@ -1,0 +1,11 @@
+{
+    "common.submitButton": "Submit",
+    "buttons.clearButton": "Clear",
+    "input.textField": "API Key",
+    "notFound.message": "Page not found!",
+    "main.primary.header": "API Management",
+    "main.submitFunctionButton": "Function Endpoint",
+    "main.submitWebApiButton": "Web Endpoint",
+    "main.messageSentPrefix": "Message sent",
+    "main.makeRequest": "Enter APIM Subscription Key and make a request"
+}
