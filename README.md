@@ -159,9 +159,3 @@ _Since this codebase demonstrates a basic setup, several additional steps can be
     -   Transforming incoming and outgoing data for better compatibility with other services.
     -   Leveraging out-of-the-box policies for authentication, authorization, and rate limiting.
 
-## Additional Resources
-
--   [Build a .NET web app using GitHub Actions](https://learn.microsoft.com/en-us/dotnet/architecture/devops-for-aspnet-developers/actions-build)
--   [Deploy to App Service using GitHub Actions](https://learn.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel)
--   [React Deployment on App Service Linux](https://azureossd.github.io/2022/02/07/React-Deployment-on-App-Service-Linux/)
--   [Deploying C# Azure Functions via GitHub Actions - _blog_](https://www.willvelida.com/posts/deploying-csharp-azure-functions-via-github-actions/)
